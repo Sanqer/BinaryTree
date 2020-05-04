@@ -1,7 +1,6 @@
 package org.example.tree;
 
 import org.example.model.Person;
-
 import java.util.List;
 
 public interface DataAdapter {

@@ -5,6 +5,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.example.model.Answer;
 import org.example.model.Item;
 import org.example.model.Request;
+import org.example.tree.DataAdapter;
+import org.example.utils.Factory;
 import org.example.utils.Common;
 
 import javax.servlet.ServletException;
@@ -17,6 +19,8 @@ import java.util.List;
 
 public class MainServlet extends HttpServlet
 {
+    private DataAdapter db = Factory.getDataAdapter();
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
     {
@@ -35,6 +39,7 @@ public class MainServlet extends HttpServlet
         resp.getWriter().println(Common.getPrettyGson().toJson(new Answer("OK", items)));
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         response.setContentType("application/json");

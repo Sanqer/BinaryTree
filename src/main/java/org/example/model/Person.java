@@ -1,11 +1,14 @@
 package org.example.model;
 
-public class Person {
-    String name;
-    int age;
-    boolean sex;
-    String phoneNumber;
-    long inn;
+public class Person implements Comparable<Person>
+{
+    private String name;
+    private int age;
+    private boolean sex;
+    private String phoneNumber;
+    private long inn;
+
+    public Person() {}
 
     public Person(String name, int age, boolean sex, String phoneNumber, long inn) {
         this.name = name;
@@ -53,5 +56,16 @@ public class Person {
 
     public void setInn(long inn) {
         this.inn = inn;
+    }
+
+    @Override
+    public int compareTo(Person o) {
+        long res = this.inn - o.inn;
+        if (res > 0) {
+            return 1;
+        } else if (res < 0) {
+            return -1;
+        }
+        return 0;
     }
 }
