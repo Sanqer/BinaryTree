@@ -4,15 +4,15 @@ import org.example.tree.TreeContainer;
 import org.example.utils.Common;
 import java.lang.reflect.Type;
 
-public class JsonSerializer<T extends Comparable<T>> implements Serializer<T>
+public class JsonSerializer implements Serializer
 {
     @Override
-    public String Serialize(TreeContainer<T> tree) {
-        return Common.getPrettyGson().toJson(tree);
+    public <T> String Serialize(T elem) {
+        return Common.getPrettyGson().toJson(elem);
     }
 
     @Override
-    public TreeContainer<T> Deserialize(String str, Type elementType) {
+    public <T> T Deserialize(String str, Type elementType) {
         return Common.getPrettyGson().fromJson(str, elementType);
     }
 }

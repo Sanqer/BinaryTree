@@ -11,14 +11,18 @@ import org.example.tree.TreeContainer;
 
 public class Factory {
     private static TreeContainer<Person> tree;
-    private static Serializer<Person> serializer;
+    private static Serializer serializer;
     private static Loader loader;
+
+    private Factory() {
+
+    }
 
     public static DataAdapter getDataAdapter() {
         return TreeAdapter.GetInstance();
     }
 
-    public static Serializer<Person> getSerializer() {
+    public static Serializer getSerializer() {
         if (serializer == null) {
             //from property
             //serializer = new JsonSerializer<>();
@@ -36,7 +40,7 @@ public class Factory {
     public static TreeContainer<Person> getTree() {
         if (tree == null) {
             tree = new RedBlackTree<>();
-            //tree = getSerializer().Deserialize(loader.load(), Person.class);
+            tree = getSerializer().Deserialize(loader.load(), RedBlackTree.class);
             //get property and create RIGHT tree from file, if tree == null, with right Serializer;
         }
         return tree;
