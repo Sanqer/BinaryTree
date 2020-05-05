@@ -24,7 +24,7 @@ public class TreeAdapter implements DataAdapter
     @Override
     public boolean addOrUpdate(Person person) {
         //try find in tree, then Add or (Delete and Add)
-        return false;
+        return tree.add(person);
     }
 
     @Override

@@ -1,18 +1,18 @@
 package org.example.utils;
 
-import org.example.filesave.JsonSerializer;
-import org.example.filesave.Loader;
-import org.example.filesave.Serializer;
+import com.google.gson.reflect.TypeToken;
+import org.example.filesave.*;
 import org.example.model.Person;
 import org.example.tree.DataAdapter;
 import org.example.tree.RedBlackTree;
 import org.example.tree.TreeAdapter;
 import org.example.tree.TreeContainer;
+import org.example.tree.avltree.AvlTree;
 
 public class Factory {
     private static TreeContainer<Person> tree;
     private static Serializer serializer;
-    private static Loader loader;
+    private static FileManager fileManager;
 
     private Factory() {
 
@@ -24,24 +24,39 @@ public class Factory {
 
     public static Serializer getSerializer() {
         if (serializer == null) {
-            //from property
-            //serializer = new JsonSerializer<>();
+            String formatProp = PropertyManager.getPropertyAsString("format", "json");
+            if (formatProp.equalsIgnoreCase("xml")) {
+                serializer = null;
+                //add xml serializer
+            } else {
+                serializer = new JsonSerializer();
+            }
         }
         return serializer;
     }
 
-    public static Loader getLoader() {
-        if (loader == null) {
-            //
+    public static FileManager getFileManager() {
+        if (fileManager == null) {
+            Loader loader = new EmptyLoader();
+            Saver saver = new EmptySaver();
+            String loaderProp = PropertyManager.getPropertyAsString("db.loader", "");
+            String saverProp = PropertyManager.getPropertyAsString("db.saver", "");
+
+            if (loaderProp.equalsIgnoreCase("file")) {
+                loader = new FileLoader();
+            }
+            if (saverProp.equalsIgnoreCase("file")) {
+                saver = new FileSaver();
+            }
+
+            fileManager = new FileManager(loader, saver);
         }
-        return loader;
+        return fileManager;
     }
 
     public static TreeContainer<Person> getTree() {
         if (tree == null) {
-            tree = new RedBlackTree<>();
-            tree = getSerializer().Deserialize(loader.load(), RedBlackTree.class);
-            //get property and create RIGHT tree from file, if tree == null, with right Serializer;
+            tree = getFileManager().load();
         }
         return tree;
     }

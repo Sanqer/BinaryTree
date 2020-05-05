@@ -55,7 +55,7 @@ public class Main
         }
     }
 
-    private static void stopServer() {
+    public static void stopServer() {
         try {
             if(server.isRunning()){
                 server.stop();

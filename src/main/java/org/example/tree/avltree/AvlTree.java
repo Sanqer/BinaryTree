@@ -2,6 +2,7 @@ package org.example.tree.avltree;
 
 import org.example.tree.TreeContainer;
 import java.util.List;
+import java.util.Stack;
 
 public class AvlTree<E extends Comparable<E>> implements TreeContainer<E>
 {
@@ -47,7 +48,18 @@ public class AvlTree<E extends Comparable<E>> implements TreeContainer<E>
     @Override
     public E find(E sameElement) {
         if (isEmpty()) return null;
-
+        Node<E> next = root;
+        while (next != null) {
+            int compRes = next.getKey().compareTo(sameElement);
+            if (compRes == 0) {
+                return next.getKey();
+            }
+            if (compRes > 0) {
+                next = next.getRight();
+            } else {
+                next = next.getLeft();
+            }
+        }
         return null;
     }
 

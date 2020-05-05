@@ -1,6 +1,12 @@
 server.port = 8026
 server.context = /
 
+format = jsOn
+db.path = ./db/db
+db.saver = file
+db.loader = file
+tree.type = avl
+
 log4j.rootLogger= TRACE, stdout, file
 log4j.logger.net.spy=TRACE
 log4j.appender.stdout=org.apache.log4j.ConsoleAppender
