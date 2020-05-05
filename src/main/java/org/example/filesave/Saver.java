@@ -1,5 +1,7 @@
 package org.example.filesave;
 
+import java.util.function.Supplier;
+
 public interface Saver {
-    boolean save(String str);
+    boolean save(Supplier<String> lazy);
 }

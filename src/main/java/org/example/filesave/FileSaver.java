@@ -7,16 +7,17 @@ import org.slf4j.LoggerFactory;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.function.Supplier;
 
 public class FileSaver implements Saver
 {
     private static Logger log = LoggerFactory.getLogger(FileSaver.class.getSimpleName());
 
     @Override
-    public boolean save(String str) {
+    public boolean save(Supplier<String> lazy) {
         String path = Common.getDbPath();
         try (FileOutputStream stream = new FileOutputStream(path)) {
-            stream.write(str.getBytes("UTF-8"));
+            stream.write(lazy.get().getBytes("UTF-8"));
             stream.flush();
             return true;
         } catch (IOException ex) {

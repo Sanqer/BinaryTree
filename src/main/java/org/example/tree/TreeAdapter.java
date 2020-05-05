@@ -18,7 +18,7 @@ public class TreeAdapter implements DataAdapter
     }
 
     private TreeAdapter() {
-        tree = Factory.getTree();
+        tree = Factory.getFileManager().load();
     }
 
     @Override
@@ -45,5 +45,9 @@ public class TreeAdapter implements DataAdapter
     public List<Person> get() {
         //tree.getAll
         return null;
+    }
+
+    public TreeContainer<Person> getTree() {
+        return tree;
     }
 }

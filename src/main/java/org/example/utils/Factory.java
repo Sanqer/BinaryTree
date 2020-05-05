@@ -10,7 +10,7 @@ import org.example.tree.TreeContainer;
 import org.example.tree.avltree.AvlTree;
 
 public class Factory {
-    private static TreeContainer<Person> tree;
+    //private static TreeContainer<Person> tree;
     private static Serializer serializer;
     private static FileManager fileManager;
 
@@ -52,12 +52,5 @@ public class Factory {
             fileManager = new FileManager(loader, saver);
         }
         return fileManager;
-    }
-
-    public static TreeContainer<Person> getTree() {
-        if (tree == null) {
-            tree = getFileManager().load();
-        }
-        return tree;
     }
 }

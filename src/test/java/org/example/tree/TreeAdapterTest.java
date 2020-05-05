@@ -40,15 +40,19 @@ public class TreeAdapterTest {
         for (Person item : pers) {
             db.addOrUpdate(item);
         }
-        String str = Factory.getSerializer().Serialize(Factory.getTree());
-        //str = "";
-        AvlTree<Person> backtree = Factory.getSerializer().Deserialize(str, new TypeToken<AvlTree<Person>>(){}.getType());
 
-        Person check = backtree.find(pers.get(0));
-        Person check2 = db.get(566);
-        assertEquals(check.getInn(), check2.getInn());
-        boolean saved = Factory.getFileManager().save(backtree);
-        assertTrue(saved);
+        if (db instanceof TreeAdapter) {
+            String str = Factory.getSerializer().Serialize(((TreeAdapter) db).getTree());
+            //str = "";
+            AvlTree<Person> backtree = Factory.getSerializer().Deserialize(str, new TypeToken<AvlTree<Person>>() {
+            }.getType());
+
+            Person check = backtree.find(pers.get(0));
+            Person check2 = db.get(566);
+            assertEquals(check.getInn(), check2.getInn());
+            boolean saved = Factory.getFileManager().save(backtree);
+            assertTrue(saved);
+        }
     }
 
     @Test

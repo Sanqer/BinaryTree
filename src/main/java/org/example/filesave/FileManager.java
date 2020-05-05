@@ -8,6 +8,8 @@ import org.example.tree.avltree.AvlTree;
 import org.example.utils.Factory;
 import org.example.utils.PropertyManager;
 
+import java.util.function.Supplier;
+
 public class FileManager
 {
     private Loader loader;
@@ -18,8 +20,8 @@ public class FileManager
         this.saver = saver;
     }
 
-    public boolean save(TreeContainer<Person> tree) {
-        return saver.save(Factory.getSerializer().Serialize(tree));
+    public <T extends Comparable<T>> boolean save(TreeContainer<T> tree) {
+        return saver.save(() -> Factory.getSerializer().Serialize(tree));
     }
 
     public TreeContainer<Person> load() {
