@@ -10,6 +10,7 @@ public class Node<T>
 
     public Node(T key) {
         this.key = key;
+        height = 1;
     }
 
     public T getKey() {

@@ -1,13 +1,17 @@
 package org.example.tree.avltree;
 
-import javafx.util.Pair;
 import org.example.tree.TreeContainer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public class AvlTree<E extends Comparable<E>> implements TreeContainer<E>
 {
+    private static Logger log = LoggerFactory.getLogger(AvlTree.class.getSimpleName());
     private Node<E> root;
+    private boolean isDeleted;
 
     public AvlTree() {
         root = null;
@@ -15,35 +19,20 @@ public class AvlTree<E extends Comparable<E>> implements TreeContainer<E>
 
     @Override
     public boolean add(E element) {
-        Node<E> node = new Node<>(element);
-        if (root == null) {
-            root = node;
+        try {
+            root = insert(root, element);
             return true;
-        } else {
-            Node<E> prev = root;
-            Node<E> next = root;
-            while (next != null) {
-                prev = next;
-                if (node.getKey().compareTo(next.getKey()) == 0) return false;
-                if (node.getKey().compareTo(next.getKey()) > 0) {
-                    next = next.getRight();
-                } else {
-                    next = next.getLeft();
-                }
-            }
-
-            if (node.getKey().compareTo(prev.getKey()) > 0) {
-                prev.setRight(node);
-            } else {
-                prev.setLeft(node);
-            }
-            return true;
+        } catch (AlreadyExistsException ex) {
+            log.error(ex.getMessage());
+            return false;
         }
     }
 
     @Override
     public boolean delete(E sameElement) {
-        return false;
+        isDeleted = false;
+        root = remove(root, sameElement);
+        return isDeleted;
     }
 
     @Override
@@ -51,7 +40,7 @@ public class AvlTree<E extends Comparable<E>> implements TreeContainer<E>
         if (isEmpty()) return null;
         Node<E> next = root;
         while (next != null) {
-            int compRes = next.getKey().compareTo(sameElement);
+            int compRes = sameElement.compareTo(next.getKey());
             if (compRes == 0) {
                 return next.getKey();
             }
@@ -66,7 +55,9 @@ public class AvlTree<E extends Comparable<E>> implements TreeContainer<E>
 
     @Override
     public List<E> getAll() {
-        return null;
+        List<E> list = new ArrayList<>();
+        dfs(root, list);
+        return list;
     }
 
     @Override
@@ -84,7 +75,7 @@ public class AvlTree<E extends Comparable<E>> implements TreeContainer<E>
         current.setHeight(Math.max(hl, hr) + 1);
     }
 
-    private int getBalance(Node<E> current) {
+    private int getBalFactor(Node<E> current) {
         int hl = height(current.getLeft());
         int hr = height(current.getRight());
         return hr - hl;
@@ -110,14 +101,14 @@ public class AvlTree<E extends Comparable<E>> implements TreeContainer<E>
 
     private Node<E> balance(Node<E> current) {
         fixHeight(current);
-        if (getBalance(current) == 2) {
-            if (getBalance(current.getRight()) < 0) {
+        if (getBalFactor(current) == 2) {
+            if (getBalFactor(current.getRight()) < 0) {
                 current.setRight(rotateRight(current.getRight()));
             }
             return rotateLeft(current);
         }
-        if (getBalance(current) == -2) {
-            if (getBalance(current.getLeft()) > 0) {
+        if (getBalFactor(current) == -2) {
+            if (getBalFactor(current.getLeft()) > 0) {
                 current.setLeft(rotateLeft(current.getLeft()));
             }
             return rotateRight(current);
@@ -125,11 +116,11 @@ public class AvlTree<E extends Comparable<E>> implements TreeContainer<E>
         return current;
     }
 
-    private Node<E> insert(Node<E> current, E element) throws Exception
+    private Node<E> insert(Node<E> current, E element) throws AlreadyExistsException
     {
         if (current == null) return new Node<>(element);
         int compRes = element.compareTo(current.getKey());
-        if (compRes == 0) throw new Exception("Элемент уже есть в дереве");
+        if (compRes == 0) throw new AlreadyExistsException("Элемент уже есть в дереве");
         if (compRes > 0) {
             current.setRight(insert(current.getRight(), element));
         } else {
@@ -161,6 +152,7 @@ public class AvlTree<E extends Comparable<E>> implements TreeContainer<E>
             Node<E> left = current.getLeft();
             Node<E> right = current.getRight();
             current = null;
+            isDeleted = true;
             if (right == null) return left;
             Node <E> min = findMin(right);
             min.setRight(removeMin(right));
@@ -168,5 +160,12 @@ public class AvlTree<E extends Comparable<E>> implements TreeContainer<E>
             return balance(min);
         }
         return balance(current);
+    }
+
+    private void dfs(Node<E> current, List<E> list) {
+        if (current == null) return;
+        dfs(current.getLeft(), list);
+        list.add(current.getKey());
+        dfs(current.getRight(), list);
     }
 }

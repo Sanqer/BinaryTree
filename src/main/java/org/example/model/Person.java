@@ -1,5 +1,7 @@
 package org.example.model;
 
+import java.util.Objects;
+
 public class Person implements Comparable<Person>
 {
     private String name;
@@ -67,5 +69,29 @@ public class Person implements Comparable<Person>
             return -1;
         }
         return 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return age == person.age &&
+                sex == person.sex &&
+                inn == person.inn &&
+                Objects.equals(name, person.name) &&
+                Objects.equals(phoneNumber, person.phoneNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age, sex, phoneNumber, inn);
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "inn=" + inn +
+                '}';
     }
 }

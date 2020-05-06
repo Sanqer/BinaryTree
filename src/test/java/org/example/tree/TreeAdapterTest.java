@@ -2,6 +2,8 @@ package org.example.tree;
 
 import com.google.gson.reflect.TypeToken;
 import org.example.Main;
+import org.example.filesave.EmptyLoader;
+import org.example.filesave.EmptySaver;
 import org.example.filesave.FileManager;
 import org.example.filesave.Serializer;
 import org.example.model.Person;
@@ -23,36 +25,65 @@ public class TreeAdapterTest {
     public void init() {
         try {
             Main.main(null);
+            Factory.getFileManager().setSaver(new EmptySaver());
+            Factory.getFileManager().setLoader(new EmptyLoader());
             db = Factory.getDataAdapter();
         } catch (Exception ex) {
-            //ignore?
+            System.out.println(ex.getMessage());
         }
     }
 
     @Test
     public void addOrUpdateTest() {
         List<Person> pers = new ArrayList<>();
-        pers.add(new Person("name2", 11, true, "1345", 566));
+        assertEquals(0, db.get().size());
+        pers.add(new Person("name2", 11, true, "1345", 555));
         pers.add(new Person("name1", 11, true, "1345", 565));
         pers.add(new Person("name22", 11, true, "1345", 567));
         pers.add(new Person("name34", 11, true, "1345", 568));
-        pers.add(new Person("name344", 11, true, "1345", 566));
+        //pers.add(new Person("name344", 11, true, "1345", 555));
         for (Person item : pers) {
             db.addOrUpdate(item);
         }
 
         if (db instanceof TreeAdapter) {
-            String str = Factory.getSerializer().Serialize(((TreeAdapter) db).getTree());
-            //str = "";
-            AvlTree<Person> backtree = Factory.getSerializer().Deserialize(str, new TypeToken<AvlTree<Person>>() {
-            }.getType());
+            List<Person> newPers = db.get();
+            assertEquals(pers.size(), newPers.size());
+            assertArrayEquals(pers.toArray(), newPers.toArray());
+            boolean deleted = db.delete(500);
+            assertFalse(deleted);
+            System.out.println(db.get());
+            deleted = db.delete(555);
+            assertTrue(deleted);
+            System.out.println(db.get());
 
-            Person check = backtree.find(pers.get(0));
-            Person check2 = db.get(566);
-            assertEquals(check.getInn(), check2.getInn());
-            boolean saved = Factory.getFileManager().save(backtree);
-            assertTrue(saved);
+            assertNull(db.get(555));
+            assertEquals(pers.get(1), db.get(565));
+            System.out.println(db.get(565));
         }
+    }
+
+    @Test
+    public void findTest() {
+        db.addOrUpdate(new Person("", 1, true, "1", 568));
+        assertNotNull(db.get(568));
+    }
+
+    @Test
+    public  void deleteTest() {
+        db.addOrUpdate(new Person("", 1, true, "1", 568));
+        db.addOrUpdate(new Person("", 1, true, "1", 570));
+        db.addOrUpdate(new Person("", 1, true, "1", 1000));
+        db.addOrUpdate(new Person("", 1, true, "1", 1001));
+        List<Person> list = db.get();
+        for(Person item : list) {
+            db.delete(item.getInn());
+        }
+        assertEquals(0, db.get().size());
+        assertTrue(((TreeAdapter) db).getTree().isEmpty());
+        db.addOrUpdate(new Person());
+        assertFalse(((TreeAdapter)db).getTree().isEmpty());
+        assertEquals(new Person(), db.get(0));
     }
 
     @Test
