@@ -1,13 +1,11 @@
 package org.example.tree;
 
-import com.google.gson.reflect.TypeToken;
 import org.example.Main;
 import org.example.filesave.EmptyLoader;
 import org.example.filesave.EmptySaver;
 import org.example.filesave.FileManager;
 import org.example.filesave.Serializer;
 import org.example.model.Person;
-import org.example.tree.avltree.AvlTree;
 import org.example.utils.FileManagerFactory;
 import org.example.utils.SerializerFactory;
 import org.junit.After;
@@ -28,7 +26,7 @@ public class TreeAdapterTest {
             Main.main(null);
             FileManagerFactory.getFileManager().setSaver(new EmptySaver());
             FileManagerFactory.getFileManager().setLoader(new EmptyLoader());
-            db = TreeAdapter.GetInstance();
+            db = TreeAdapter.getInstance();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

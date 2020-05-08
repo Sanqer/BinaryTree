@@ -13,7 +13,7 @@ public class TreeAdapter implements DataAdapter
     private TreeContainer<Person> tree;
     private static TreeAdapter instance;
 
-    public static TreeAdapter GetInstance() {
+    public static TreeAdapter getInstance() {
         if (instance == null) {
             instance = new TreeAdapter();
         }

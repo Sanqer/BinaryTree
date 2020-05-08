@@ -19,7 +19,7 @@ import java.util.List;
 
 public class MainServlet extends HttpServlet
 {
-    private DataAdapter db = TreeAdapter.GetInstance();
+    private DataAdapter db = TreeAdapter.getInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
