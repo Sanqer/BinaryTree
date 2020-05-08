@@ -45,7 +45,7 @@ public class TreeAdapterTest {
         if (db instanceof TreeAdapter) {
             TreeAdapter dbTree = (TreeAdapter)db;
             FileManagerFactory.getFileManager().setSaver(new FileSaver());
-            FileManagerFactory.getFileManager().save(dbTree.getTree());
+            //FileManagerFactory.getFileManager().save(dbTree.getTree());
             FileManagerFactory.getFileManager().setSaver(new EmptySaver());
 
             List<Person> newPers = db.get();
