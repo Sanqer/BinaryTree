@@ -5,8 +5,10 @@ import org.example.model.Person;
 import org.example.tree.RedBlackTree;
 import org.example.tree.TreeContainer;
 import org.example.tree.avltree.AvlTree;
+import org.example.tree.sympletree.SimpleTree;
 import org.example.utils.PropertyManager;
-import org.example.utils.SerializerFactory;
+
+import java.util.function.Supplier;
 
 public class FileManager
 {
@@ -30,9 +32,9 @@ public class FileManager
             if (tree == null)
                 tree = new AvlTree<>();
         } else {
-            tree = SerializerFactory.getSerializer().Deserialize(loader.load(), new TypeToken<RedBlackTree<Person>>() {}.getType());
+            tree = SerializerFactory.getSerializer().Deserialize(loader.load(), new TypeToken<SimpleTree<Person>>() {}.getType());
             if (tree == null)
-                tree = new RedBlackTree<>();
+                tree = new SimpleTree<>();
         }
         return tree;
     }
