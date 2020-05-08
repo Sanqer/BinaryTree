@@ -1,10 +1,7 @@
 package org.example.tree;
 
 import org.example.Main;
-import org.example.filesave.EmptyLoader;
-import org.example.filesave.EmptySaver;
-import org.example.filesave.FileManager;
-import org.example.filesave.Serializer;
+import org.example.filesave.*;
 import org.example.model.Person;
 import org.example.utils.FileManagerFactory;
 import org.example.utils.SerializerFactory;
@@ -37,15 +34,20 @@ public class TreeAdapterTest {
         List<Person> pers = new ArrayList<>();
         assertEquals(0, db.get().size());
         pers.add(new Person("name2", 11, true, "1345", 555));
-        pers.add(new Person("name1", 11, true, "1345", 565));
-        pers.add(new Person("name22", 11, true, "1345", 567));
-        pers.add(new Person("name34", 11, true, "1345", 568));
+        pers.add(new Person("name1", 5, true, "134", 565));
+        pers.add(new Person("name22", 15, false, "13", 567));
+        pers.add(new Person("name34", 85, true, "1", 568));
         //pers.add(new Person("name344", 11, true, "1345", 555));
         for (Person item : pers) {
             db.addOrUpdate(item);
         }
 
         if (db instanceof TreeAdapter) {
+            TreeAdapter dbTree = (TreeAdapter)db;
+            FileManagerFactory.getFileManager().setSaver(new FileSaver());
+            FileManagerFactory.getFileManager().save(dbTree.getTree());
+            FileManagerFactory.getFileManager().setSaver(new EmptySaver());
+
             List<Person> newPers = db.get();
             assertEquals(pers.size(), newPers.size());
             assertArrayEquals(pers.toArray(), newPers.toArray());
