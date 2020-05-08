@@ -5,10 +5,8 @@ import org.example.model.Person;
 import org.example.tree.RedBlackTree;
 import org.example.tree.TreeContainer;
 import org.example.tree.avltree.AvlTree;
-import org.example.utils.Factory;
 import org.example.utils.PropertyManager;
-
-import java.util.function.Supplier;
+import org.example.utils.SerializerFactory;
 
 public class FileManager
 {
@@ -21,18 +19,18 @@ public class FileManager
     }
 
     public <T extends Comparable<T>> boolean save(TreeContainer<T> tree) {
-        return saver.save(() -> Factory.getSerializer().Serialize(tree));
+        return saver.save(() -> SerializerFactory.getSerializer().Serialize(tree));
     }
 
     public TreeContainer<Person> load() {
         TreeContainer<Person> tree;
         String treeProp = PropertyManager.getPropertyAsString("tree.type", "avl");
         if (treeProp.equalsIgnoreCase("avl")) {
-            tree = Factory.getSerializer().Deserialize(loader.load(), new TypeToken<AvlTree<Person>>() {}.getType());
+            tree = SerializerFactory.getSerializer().Deserialize(loader.load(), new TypeToken<AvlTree<Person>>() {}.getType());
             if (tree == null)
                 tree = new AvlTree<>();
         } else {
-            tree = Factory.getSerializer().Deserialize(loader.load(), new TypeToken<RedBlackTree<Person>>() {}.getType());
+            tree = SerializerFactory.getSerializer().Deserialize(loader.load(), new TypeToken<RedBlackTree<Person>>() {}.getType());
             if (tree == null)
                 tree = new RedBlackTree<>();
         }

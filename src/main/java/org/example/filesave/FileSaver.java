@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.function.Supplier;
 
 public class FileSaver implements Saver
@@ -17,7 +18,7 @@ public class FileSaver implements Saver
     public boolean save(Supplier<String> lazy) {
         String path = Common.getDbPath();
         try (FileOutputStream stream = new FileOutputStream(path)) {
-            stream.write(lazy.get().getBytes("UTF-8"));
+            stream.write(lazy.get().getBytes(StandardCharsets.UTF_8));
             stream.flush();
             return true;
         } catch (IOException ex) {

@@ -8,7 +8,8 @@ import org.example.filesave.FileManager;
 import org.example.filesave.Serializer;
 import org.example.model.Person;
 import org.example.tree.avltree.AvlTree;
-import org.example.utils.Factory;
+import org.example.utils.FileManagerFactory;
+import org.example.utils.SerializerFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,9 +26,9 @@ public class TreeAdapterTest {
     public void init() {
         try {
             Main.main(null);
-            Factory.getFileManager().setSaver(new EmptySaver());
-            Factory.getFileManager().setLoader(new EmptyLoader());
-            db = Factory.getDataAdapter();
+            FileManagerFactory.getFileManager().setSaver(new EmptySaver());
+            FileManagerFactory.getFileManager().setLoader(new EmptyLoader());
+            db = TreeAdapter.GetInstance();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
@@ -88,11 +89,11 @@ public class TreeAdapterTest {
 
     @Test
     public void FactoryTest() {
-        FileManager manager = Factory.getFileManager();
+        FileManager manager = FileManagerFactory.getFileManager();
         String className = manager.getClass().getName();
         String simpName = manager.getClass().getSimpleName();
 
-        Serializer ser = Factory.getSerializer();
+        Serializer ser = SerializerFactory.getSerializer();
         String serName = ser.getClass().getSimpleName();
     }
 

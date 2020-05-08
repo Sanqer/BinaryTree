@@ -6,7 +6,7 @@ import org.example.model.Answer;
 import org.example.model.Item;
 import org.example.model.Request;
 import org.example.tree.DataAdapter;
-import org.example.utils.Factory;
+import org.example.tree.TreeAdapter;
 import org.example.utils.Common;
 
 import javax.servlet.ServletException;
@@ -19,7 +19,7 @@ import java.util.List;
 
 public class MainServlet extends HttpServlet
 {
-    private DataAdapter db = Factory.getDataAdapter();
+    private DataAdapter db = TreeAdapter.GetInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException

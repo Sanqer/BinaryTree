@@ -1,7 +1,7 @@
 package org.example.tree;
 
 import org.example.model.Person;
-import org.example.utils.Factory;
+import org.example.utils.FileManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +21,7 @@ public class TreeAdapter implements DataAdapter
     }
 
     private TreeAdapter() {
-        tree = Factory.getFileManager().load();
+        tree = FileManagerFactory.getFileManager().load();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class TreeAdapter implements DataAdapter
         if (!checkAdd || !checkDel) {
             log.error("Ошибка добавления/обновления элемента {}", person);
         }
-        Factory.getFileManager().save(tree);
+        FileManagerFactory.getFileManager().save(tree);
         return added;
     }
 
@@ -47,7 +47,7 @@ public class TreeAdapter implements DataAdapter
         Person hollowPerson = new Person();
         hollowPerson.setInn(inn);
         boolean isDel = tree.delete(hollowPerson);
-        Factory.getFileManager().save(tree);
+        FileManagerFactory.getFileManager().save(tree);
         return isDel;
     }
 
@@ -65,5 +65,9 @@ public class TreeAdapter implements DataAdapter
 
     public TreeContainer<Person> getTree() {
         return tree;
+    }
+
+    public void setTree(TreeContainer<Person> tree) {
+        this.tree = tree;
     }
 }

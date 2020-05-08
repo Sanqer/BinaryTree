@@ -4,7 +4,6 @@ public class Node<T>
 {
     private T key;
     private int height;
-    private Node<T> parent;
     private Node<T> left;
     private Node<T> right;
 
@@ -27,14 +26,6 @@ public class Node<T>
 
     public void setHeight(int height) {
         this.height = height;
-    }
-
-    public Node<T> getParent() {
-        return parent;
-    }
-
-    public void setParent(Node<T> parent) {
-        this.parent = parent;
     }
 
     public Node<T> getLeft() {
