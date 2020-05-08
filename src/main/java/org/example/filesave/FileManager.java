@@ -2,13 +2,12 @@ package org.example.filesave;
 
 import com.google.gson.reflect.TypeToken;
 import org.example.model.Person;
-import org.example.tree.RedBlackTree;
+import org.example.tree.rbtree.RedBlackTree;
 import org.example.tree.TreeContainer;
 import org.example.tree.avltree.AvlTree;
 import org.example.tree.sympletree.SimpleTree;
 import org.example.utils.PropertyManager;
-
-import java.util.function.Supplier;
+import org.example.utils.SerializerFactory;
 
 public class FileManager
 {
@@ -31,6 +30,10 @@ public class FileManager
             tree = SerializerFactory.getSerializer().Deserialize(loader.load(), new TypeToken<AvlTree<Person>>() {}.getType());
             if (tree == null)
                 tree = new AvlTree<>();
+        } else if (treeProp.equalsIgnoreCase("rbtree")){
+            tree = SerializerFactory.getSerializer().Deserialize(loader.load(), new TypeToken<RedBlackTree<Person>>() {}.getType());
+            if (tree == null)
+                tree = new RedBlackTree<>();
         } else {
             tree = SerializerFactory.getSerializer().Deserialize(loader.load(), new TypeToken<SimpleTree<Person>>() {}.getType());
             if (tree == null)
