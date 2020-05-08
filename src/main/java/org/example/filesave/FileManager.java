@@ -5,6 +5,7 @@ import org.example.model.Person;
 import org.example.tree.RedBlackTree;
 import org.example.tree.TreeContainer;
 import org.example.tree.avltree.AvlTree;
+import org.example.tree.sympletree.SimpleTree;
 import org.example.utils.Factory;
 import org.example.utils.PropertyManager;
 
@@ -32,9 +33,9 @@ public class FileManager
             if (tree == null)
                 tree = new AvlTree<>();
         } else {
-            tree = Factory.getSerializer().Deserialize(loader.load(), new TypeToken<RedBlackTree<Person>>() {}.getType());
+            tree = Factory.getSerializer().Deserialize(loader.load(), new TypeToken<SimpleTree<Person>>() {}.getType());
             if (tree == null)
-                tree = new RedBlackTree<>();
+                tree = new SimpleTree<>();
         }
         return tree;
     }
