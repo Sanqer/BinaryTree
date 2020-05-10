@@ -12,8 +12,7 @@ public class RedNode<E> {
     public boolean color;
 
 
-    public RedNode(E val) {
-        this.value=val;
+    public RedNode() {
         right=null;
         left=null;
         parent=null;
@@ -21,10 +20,11 @@ public class RedNode<E> {
         numRight = 0;
         color=false;
     }
-
-    public E value() {
-        return value;
+    RedNode(E value){
+        this();
+        this.value = value;
     }
+
 
     public RedNode<E> left() {
         return left;
