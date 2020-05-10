@@ -34,7 +34,7 @@ public class SimpleTree<E extends Comparable<E>> implements TreeContainer<E> {
         Node<E> res=search(sameElement);
         if(res==null){
         return null;
-        }else{ return res.val;}
+        }else{ return res.key;}
     }
 
     @JsonIgnore
@@ -68,14 +68,14 @@ public class SimpleTree<E extends Comparable<E>> implements TreeContainer<E> {
             root=new Node<>(val);
             return;
         }
-        if(val.compareTo(elem.val) < 0){
+        if(val.compareTo(elem.key) < 0){
             if(elem.left==null){
                 elem.left = new Node<>(val);
                 elem.left.parent=elem;
             }else{
                 addElem(val,elem.left);
             }
-        }else if(val.compareTo(elem.val) > 0){
+        }else if(val.compareTo(elem.key) > 0){
             if(elem.right==null){
                 elem.right = new Node<>(val);
                 elem.right.parent=elem;
@@ -89,10 +89,10 @@ public class SimpleTree<E extends Comparable<E>> implements TreeContainer<E> {
 
     private Node<E> searchR(Node<E> tree, E val){
         if(tree == null) return null;
-        if(val.compareTo(tree.val)>0){
+        if(val.compareTo(tree.key)>0){
             return searchR(tree.right, val);
         }
-        if(val.compareTo(tree.val)<0){
+        if(val.compareTo(tree.key)<0){
             return searchR(tree.left, val);
         }
         return tree;
@@ -122,9 +122,9 @@ public class SimpleTree<E extends Comparable<E>> implements TreeContainer<E> {
             while (curTree.left != null) {
                 curTree = curTree.left;
             }
-            E temp = curTree.val;
+            E temp = curTree.key;
             boolean x=remove(temp);
-            tree.val = temp;
+            tree.key = temp;
             return x;
         }
         //Удаление листьев
@@ -202,7 +202,7 @@ public class SimpleTree<E extends Comparable<E>> implements TreeContainer<E> {
     private void printR(Node<E> node){
         if(node == null) return;
         printR(node.left);
-        listForPrint.add(node.val);
+        listForPrint.add(node.key);
         if(node.right!=null)
             printR(node.right);
     }

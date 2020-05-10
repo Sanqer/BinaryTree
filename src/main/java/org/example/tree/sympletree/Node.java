@@ -1,19 +1,19 @@
 package org.example.tree.sympletree;
 
 public class Node<E>{
-    public E val;
+    public E key;
     public transient Node<E> parent;
     public Node<E> left;
     public Node<E> right;
 
     public Node(E val) {
-        this.val=val;
+        this.key =val;
     }
 
     public Node() {}
 
     public E val() {
-            return val;
+            return key;
     }
 
     public Node<E> left() {
@@ -30,7 +30,7 @@ public class Node<E>{
     @Override
     public String toString() {
             return "BinaryTree{" +
-                    "val=" + val +
+                    "val=" + key +
                     '}';
         }
 }

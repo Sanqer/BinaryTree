@@ -111,12 +111,20 @@ public class TreeAdapterTest {
 
     @Test
     public void saveLoadTest() {
+
         FileManager manager = FileManagerFactory.getFileManager();
         manager.setSaver(new FileSaver());
         manager.setLoader(new FileLoader());
-        List<Person> list = fillTree(10);
+        List<Person> list = fillTree(100);
         manager.save(db.getTree());
         db.setTree(manager.load());
+        assertArrayEquals(list.toArray(), db.get().toArray());
+        db.setTree(manager.load());
+        assertArrayEquals(list.toArray(), db.get().toArray());
+        db.setTree(manager.load());
+        db.get(list.get(0).getInn());
+        assertArrayEquals(list.toArray(), db.get().toArray());
+        System.out.println(db.get());
         assertArrayEquals(list.toArray(), db.get().toArray());
 
         manager.setSaver(new EmptySaver());
@@ -144,8 +152,8 @@ public class TreeAdapterTest {
         Random rand = new Random();
         for (int i = 0; i < bound; ++i) {
             Person tempPer = new Person();
-            long inn = rand.nextLong();
-            //if (inn < 0) inn *= -1;
+            long inn = rand.nextInt(10000);
+            if (inn < 0) inn *= -1;
             tempPer.setInn(inn);
 
             tempPer.setAge(rand.nextInt(80));

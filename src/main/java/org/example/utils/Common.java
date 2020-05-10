@@ -122,9 +122,23 @@ public class Common
 
     public static String getDbPath() {
         String dirPath = PropertyManager.getPropertyAsString("db.path", "./db/db");
-        String ext = PropertyManager.getPropertyAsString("format", "json");
+        String ext = getFormat();
         return dirPath + "." + ext;
     }
+
+    public static String getFormat() {
+        String formatProp = PropertyManager.getPropertyAsString("format", "json");
+        if (formatProp.equalsIgnoreCase("xml") || formatProp.equalsIgnoreCase("json")) {
+            return formatProp.toLowerCase();
+        } else {
+            return "json";
+        }
+    }
+
+    public static String getHttpFormat() {
+        return "application/" + getFormat();
+    }
+
 
     public static void configure() {
         try {

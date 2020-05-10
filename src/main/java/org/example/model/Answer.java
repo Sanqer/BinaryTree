@@ -1,13 +1,19 @@
 package org.example.model;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
+
 import java.util.List;
 
 public class Answer
 {
     private String status;
-    private List<Item> items;
+    @JacksonXmlProperty
+    @JacksonXmlElementWrapper
+    private List<Person> items;
 
-    public Answer(String status, List<Item> items)
+    public Answer(String status, List<Person> items)
     {
         this.status = status;
         this.items = items;
@@ -23,12 +29,12 @@ public class Answer
         this.status = status;
     }
 
-    public List<Item> getItems()
+    public List<Person> getItems()
     {
         return items;
     }
 
-    public void setItems(List<Item> items)
+    public void setItems(List<Person> items)
     {
         this.items = items;
     }

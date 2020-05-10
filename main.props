@@ -1,7 +1,7 @@
 server.port = 8026
 server.context = /
 
-format = json
+format = xml
 db.path = ./db/db
 db.saver = file
 db.loader = file
