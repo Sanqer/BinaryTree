@@ -7,6 +7,10 @@ public class Node<T>
     private Node<T> left;
     private Node<T> right;
 
+    public Node() {
+
+    }
+
     public Node(T key) {
         this.key = key;
         height = 1;

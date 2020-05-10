@@ -1,5 +1,8 @@
 package org.example.tree.avltree;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.example.tree.TreeContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,11 +10,13 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AvlTree<E extends Comparable<E>> implements TreeContainer<E>
 {
-    private static Logger log = LoggerFactory.getLogger(AvlTree.class.getSimpleName());
+    private transient static Logger log = LoggerFactory.getLogger(AvlTree.class.getSimpleName());
+    @JacksonXmlProperty
     private Node<E> root;
-    private boolean isDeleted;
+    private transient boolean isDeleted;
 
     public AvlTree() {
         root = null;
@@ -53,6 +58,7 @@ public class AvlTree<E extends Comparable<E>> implements TreeContainer<E>
         return null;
     }
 
+    @JsonIgnore
     @Override
     public List<E> getAll() {
         List<E> list = new ArrayList<>();
@@ -60,6 +66,7 @@ public class AvlTree<E extends Comparable<E>> implements TreeContainer<E>
         return list;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEmpty() {
         return root == null;

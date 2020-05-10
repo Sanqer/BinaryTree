@@ -8,4 +8,6 @@ public interface TreeContainer<E extends Comparable<E>> {
     E find(E sameElement);
     List<E> getAll();
     boolean isEmpty();
+
+    default void configure() {}
 }

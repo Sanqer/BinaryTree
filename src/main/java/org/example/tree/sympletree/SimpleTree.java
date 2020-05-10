@@ -1,13 +1,18 @@
 package org.example.tree.sympletree;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.example.tree.TreeContainer;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SimpleTree<E extends Comparable<E>> implements TreeContainer<E> {
-    private  Node<E> root;
-    private List<E> listForPrint = new ArrayList<>();
+    @JacksonXmlProperty
+    private Node<E> root;
+    private transient List<E> listForPrint = new ArrayList<>();
 
     public SimpleTree() {
         root = null;
@@ -32,6 +37,7 @@ public class SimpleTree<E extends Comparable<E>> implements TreeContainer<E> {
         }else{ return res.val;}
     }
 
+    @JsonIgnore
     @Override
     public List<E> getAll() {
         listForPrint.clear();
@@ -39,9 +45,22 @@ public class SimpleTree<E extends Comparable<E>> implements TreeContainer<E> {
         return listForPrint;
     }
 
+    @JsonIgnore
     @Override
     public boolean isEmpty() {
         return root==null;
+    }
+
+    @Override
+    public void configure() {
+        restoreParents(root, null);
+    }
+
+    private void restoreParents(Node<E> current, Node<E> prev) {
+        if (current == null) return;
+        current.parent = prev;
+        restoreParents(current.left, current);
+        restoreParents(current.right, current);
     }
 
     private void addElem(E val, Node<E> elem){
