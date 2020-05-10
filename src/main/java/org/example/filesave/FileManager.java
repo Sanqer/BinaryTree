@@ -39,6 +39,7 @@ public class FileManager
             if (tree == null)
                 tree = new SimpleTree<>();
         }
+        tree.configure();
         return tree;
     }
 

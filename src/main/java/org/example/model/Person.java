@@ -1,18 +1,20 @@
 package org.example.model;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import java.util.Objects;
 
 public class Person implements Comparable<Person>
 {
     private String name;
     private int age;
-    private boolean sex;
+    @JacksonXmlProperty
+    private Sex sex;
     private String phoneNumber;
     private long inn;
 
     public Person() {}
 
-    public Person(String name, int age, boolean sex, String phoneNumber, long inn) {
+    public Person(String name, int age, Sex sex, String phoneNumber, long inn) {
         this.name = name;
         this.age = age;
         this.sex = sex;
@@ -36,11 +38,11 @@ public class Person implements Comparable<Person>
         this.age = age;
     }
 
-    public boolean isSex() {
+    public Sex isSex() {
         return sex;
     }
 
-    public void setSex(boolean sex) {
+    public void setSex(Sex sex) {
         this.sex = sex;
     }
 
@@ -62,13 +64,7 @@ public class Person implements Comparable<Person>
 
     @Override
     public int compareTo(Person o) {
-        long res = this.inn - o.inn;
-        if (res > 0) {
-            return 1;
-        } else if (res < 0) {
-            return -1;
-        }
-        return 0;
+        return Long.compare(this.inn, o.inn);
     }
 
     @Override
