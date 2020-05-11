@@ -1,11 +1,11 @@
 server.port = 8026
 server.context = /
 
-format = xml
+format = json
 db.path = ./db/db
 db.saver = file
 db.loader = file
-tree.type = avl
+tree.type = rbtree
 
 log4j.rootLogger= TRACE, stdout, file
 log4j.logger.net.spy=TRACE
