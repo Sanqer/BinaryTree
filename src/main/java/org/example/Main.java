@@ -17,6 +17,7 @@ public class Main
 
     public static void main(String[] args) throws Exception
     {
+
         PropertyManager.load();
         Common.configure();
         runServer();

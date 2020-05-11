@@ -6,7 +6,7 @@ public class RedNode<E> {
     public E value;
     public RedNode<E> left;
     public RedNode<E> right;
-    public RedNode<E> parent;
+    public transient RedNode<E> parent;
     public int numLeft = 0;
     public int numRight = 0;
     public boolean color;
@@ -20,11 +20,18 @@ public class RedNode<E> {
         numRight = 0;
         color=false;
     }
+
     RedNode(E value){
         this();
         this.value = value;
     }
 
+    @Override
+    public String toString() {
+        return "RedBlackTree{" +
+                "val=" + value +
+                '}';
+    }
 
     public RedNode<E> left() {
         return left;
@@ -35,5 +42,6 @@ public class RedNode<E> {
     }
 
     public boolean color() { return color; }
+
 }
 
