@@ -4,15 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.example.tree.TreeContainer;
-import org.example.tree.sympletree.Node;
-
 import java.util.ArrayList;
 import java.util.List;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RedBlackTree <E extends Comparable<E>> implements TreeContainer<E>
 {
     private transient List<E> listForPrint = new ArrayList<>();
-
     private transient RedNode<E> nil = new RedNode<>();
     @JacksonXmlProperty
     private RedNode<E> root=nil;
@@ -279,7 +277,7 @@ public class RedBlackTree <E extends Comparable<E>> implements TreeContainer<E>
 
         // Пока мы не исправили дерево полностью ...
         while (x!=null && (x.value.compareTo(root.value)!=0) && (!x.color)){
-            if (x.parent.right!=null && x.value.compareTo(x.parent.left.value)==0){
+            if (x.parent.left != null && x.parent.right!=null && x.value.compareTo(x.parent.left.value)==0){
                 // установить родного брата
                 w = x.parent.right;
 

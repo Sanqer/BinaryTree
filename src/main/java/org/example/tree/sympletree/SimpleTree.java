@@ -119,8 +119,14 @@ public class SimpleTree<E extends Comparable<E>> implements TreeContainer<E> {
                 root=null;
                 return true;
             }
-            while (curTree.left != null) {
-                curTree = curTree.left;
+            if (tree.right != null) {
+                while (curTree.left != null) {
+                    curTree = curTree.left;
+                }
+            } else {
+                while (curTree.right != null) {
+                    curTree = curTree.right;
+                }
             }
             E temp = curTree.key;
             boolean x=remove(temp);
