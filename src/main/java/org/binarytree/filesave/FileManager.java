@@ -20,22 +20,22 @@ public class FileManager
     }
 
     public <T extends Comparable<T>> boolean save(TreeContainer<T> tree) {
-        return saver.save(() -> SerializerFactory.getSerializer().Serialize(tree));
+        return saver.save(() -> SerializerFactory.getSerializer().serialize(tree));
     }
 
     public TreeContainer<Person> load() {
         TreeContainer<Person> tree;
         String treeProp = Common.getTreeType();
         if (treeProp.equalsIgnoreCase("avl")) {
-            tree = SerializerFactory.getSerializer().Deserialize(loader.load(), new TypeToken<AvlTree<Person>>() {}.getType());
+            tree = SerializerFactory.getSerializer().deserialize(loader.load(), new TypeToken<AvlTree<Person>>() {}.getType());
             if (tree == null)
                 tree = new AvlTree<>();
         } else if (treeProp.equalsIgnoreCase("rbtree")){
-            tree = SerializerFactory.getSerializer().Deserialize(loader.load(), new TypeToken<RedBlackTree<Person>>() {}.getType());
+            tree = SerializerFactory.getSerializer().deserialize(loader.load(), new TypeToken<RedBlackTree<Person>>() {}.getType());
             if (tree == null)
                 tree = new RedBlackTree<>();
         } else {
-            tree = SerializerFactory.getSerializer().Deserialize(loader.load(), new TypeToken<SimpleTree<Person>>() {}.getType());
+            tree = SerializerFactory.getSerializer().deserialize(loader.load(), new TypeToken<SimpleTree<Person>>() {}.getType());
             if (tree == null)
                 tree = new SimpleTree<>();
         }
