@@ -12,7 +12,7 @@ public class XmlSerializer implements Serializer
 {
     private static Logger log = LoggerFactory.getLogger(XmlSerializer.class.getSimpleName());
     @Override
-    public <T> String Serialize(T elem) {
+    public <T> String serialize(T elem) {
         if (elem == null) return "";
         XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -26,7 +26,7 @@ public class XmlSerializer implements Serializer
     }
 
     @Override
-    public <T> T Deserialize(String str, Type elementType) {
+    public <T> T deserialize(String str, Type elementType) {
         if (StringUtils.isBlank(str)) return null;
         XmlMapper xmlMapper = new XmlMapper();
         T res = null;

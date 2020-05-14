@@ -30,13 +30,13 @@ public class MainServlet extends HttpServlet
         Answer answer = null;
         resp.setContentType(Common.getHttpFormat());
         String reqStr = IOUtils.toString(req.getInputStream(), StandardCharsets.UTF_8);
-        Person r = SerializerFactory.getSerializer().Deserialize(reqStr, Person.class);
+        Person r = SerializerFactory.getSerializer().deserialize(reqStr, Person.class);
         if(r == null)
         {
             log.error("BAD_REQUEST in doGet - invalid post body");
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             answer = new Answer("BAD_REQUEST", null);
-            resp.getWriter().println(SerializerFactory.getSerializer().Serialize(answer));
+            resp.getWriter().println(SerializerFactory.getSerializer().serialize(answer));
             return;
         }
         boolean added = db.addOrUpdate(r);
@@ -48,7 +48,7 @@ public class MainServlet extends HttpServlet
             status = "UPDATED";
         }
         answer = new Answer(status, Collections.singletonList(db.get(r.getInn())));
-        resp.getWriter().println(SerializerFactory.getSerializer().Serialize(answer));
+        resp.getWriter().println(SerializerFactory.getSerializer().serialize(answer));
     }
 
     @Override
@@ -78,7 +78,7 @@ public class MainServlet extends HttpServlet
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             answer = new Answer("BAD_REQUEST", null);
         }
-        response.getWriter().println(SerializerFactory.getSerializer().Serialize(answer));
+        response.getWriter().println(SerializerFactory.getSerializer().serialize(answer));
     }
 
     @Override
@@ -101,6 +101,6 @@ public class MainServlet extends HttpServlet
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             answer = new Answer("BAD_REQUEST", null);
         }
-        resp.getWriter().println(SerializerFactory.getSerializer().Serialize(answer));
+        resp.getWriter().println(SerializerFactory.getSerializer().serialize(answer));
     }
 }

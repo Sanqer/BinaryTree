@@ -46,7 +46,7 @@ public class MainServletTest {
         try {
             CloseableHttpResponse resp = client.execute(httpGet);
             String strResp = IOUtils.toString(resp.getEntity().getContent(), StandardCharsets.UTF_8);
-            Answer ans = SerializerFactory.getSerializer().Deserialize(strResp, Answer.class);
+            Answer ans = SerializerFactory.getSerializer().deserialize(strResp, Answer.class);
             assertArrayEquals(db.get().toArray(), ans.getItems().toArray());
             assertEquals("OK", ans.getStatus());
             resp.close();
@@ -62,7 +62,7 @@ public class MainServletTest {
         try {
             CloseableHttpResponse resp = client.execute(httpGet);
             String strResp = IOUtils.toString(resp.getEntity().getContent(), StandardCharsets.UTF_8);
-            Answer ans = SerializerFactory.getSerializer().Deserialize(strResp, Answer.class);
+            Answer ans = SerializerFactory.getSerializer().deserialize(strResp, Answer.class);
             assertNull(ans.getItems());
             assertEquals("BAD_REQUEST", ans.getStatus());
             resp.close();
@@ -78,7 +78,7 @@ public class MainServletTest {
         try {
             CloseableHttpResponse resp = client.execute(httpGet);
             String strResp = IOUtils.toString(resp.getEntity().getContent(), StandardCharsets.UTF_8);
-            Answer ans = SerializerFactory.getSerializer().Deserialize(strResp, Answer.class);
+            Answer ans = SerializerFactory.getSerializer().deserialize(strResp, Answer.class);
             assertEquals(db.get(1), ans.getItems().get(0));
             assertEquals("OK", ans.getStatus());
             resp.close();
@@ -95,7 +95,7 @@ public class MainServletTest {
         try {
             CloseableHttpResponse resp = client.execute(httpGet);
             String strResp = IOUtils.toString(resp.getEntity().getContent(), StandardCharsets.UTF_8);
-            Answer ans = SerializerFactory.getSerializer().Deserialize(strResp, Answer.class);
+            Answer ans = SerializerFactory.getSerializer().deserialize(strResp, Answer.class);
             assertEquals("NOT_FOUND", ans.getStatus());
             assertNull(ans.getItems());
             resp.close();
@@ -112,19 +112,19 @@ public class MainServletTest {
         CloseableHttpClient client = HttpClientBuilder.create().build();
         HttpPost httpPost = new HttpPost("http://localhost:8026/person");
         try {
-            httpPost.setEntity(new StringEntity(SerializerFactory.getSerializer().Serialize(person)));
+            httpPost.setEntity(new StringEntity(SerializerFactory.getSerializer().serialize(person)));
             CloseableHttpResponse resp = client.execute(httpPost);
             String strResp = IOUtils.toString(resp.getEntity().getContent(), StandardCharsets.UTF_8);
-            Answer ans = SerializerFactory.getSerializer().Deserialize(strResp, Answer.class);
+            Answer ans = SerializerFactory.getSerializer().deserialize(strResp, Answer.class);
             assertEquals("ADDED", ans.getStatus());
             assertEquals(person, ans.getItems().get(0));
             resp.close();
 
             person.setName("myName");
-            httpPost.setEntity(new StringEntity(SerializerFactory.getSerializer().Serialize(person)));
+            httpPost.setEntity(new StringEntity(SerializerFactory.getSerializer().serialize(person)));
             resp = client.execute(httpPost);
             strResp = IOUtils.toString(resp.getEntity().getContent(), StandardCharsets.UTF_8);
-            ans = SerializerFactory.getSerializer().Deserialize(strResp, Answer.class);
+            ans = SerializerFactory.getSerializer().deserialize(strResp, Answer.class);
             assertEquals("UPDATED", ans.getStatus());
             assertEquals("myName", ans.getItems().get(0).getName());
             resp.close();
@@ -132,7 +132,7 @@ public class MainServletTest {
             HttpDelete httpDelete = new HttpDelete("http://localhost:8026/person?inn=-1");
             resp = client.execute(httpDelete);
             strResp = IOUtils.toString(resp.getEntity().getContent(), StandardCharsets.UTF_8);
-            ans = SerializerFactory.getSerializer().Deserialize(strResp, Answer.class);
+            ans = SerializerFactory.getSerializer().deserialize(strResp, Answer.class);
             assertEquals("DELETED", ans.getStatus());
             assertNull(ans.getItems());
             resp.close();
@@ -148,10 +148,10 @@ public class MainServletTest {
         CloseableHttpClient client = HttpClientBuilder.create().build();
         HttpPost httpPost = new HttpPost("http://localhost:8026/person");
         try {
-            httpPost.setEntity(new StringEntity(SerializerFactory.getSerializer().Serialize(person)));
+            httpPost.setEntity(new StringEntity(SerializerFactory.getSerializer().serialize(person)));
             CloseableHttpResponse resp = client.execute(httpPost);
             String strResp = IOUtils.toString(resp.getEntity().getContent(), StandardCharsets.UTF_8);
-            Answer ans = SerializerFactory.getSerializer().Deserialize(strResp, Answer.class);
+            Answer ans = SerializerFactory.getSerializer().deserialize(strResp, Answer.class);
             assertEquals("BAD_REQUEST", ans.getStatus());
             assertNull(ans.getItems());
             resp.close();
@@ -169,7 +169,7 @@ public class MainServletTest {
         try {
             CloseableHttpResponse resp = client.execute(httpDelete);
             String strResp = IOUtils.toString(resp.getEntity().getContent(), StandardCharsets.UTF_8);
-            Answer ans = SerializerFactory.getSerializer().Deserialize(strResp, Answer.class);
+            Answer ans = SerializerFactory.getSerializer().deserialize(strResp, Answer.class);
             assertEquals("NOT_FOUND", ans.getStatus());
             assertNull(ans.getItems());
             resp.close();
@@ -187,7 +187,7 @@ public class MainServletTest {
         try {
             CloseableHttpResponse resp = client.execute(httpDelete);
             String strResp = IOUtils.toString(resp.getEntity().getContent(), StandardCharsets.UTF_8);
-            Answer ans = SerializerFactory.getSerializer().Deserialize(strResp, Answer.class);
+            Answer ans = SerializerFactory.getSerializer().deserialize(strResp, Answer.class);
             assertEquals("BAD_REQUEST", ans.getStatus());
             assertNull(ans.getItems());
             resp.close();

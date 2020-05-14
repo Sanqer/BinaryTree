@@ -4,6 +4,6 @@ import java.lang.reflect.Type;
 
 public interface Serializer
 {
-    <T>String Serialize(T elem);
-    <T> T Deserialize(String str, Type elementType);
+    <T>String serialize(T elem);
+    <T> T deserialize(String str, Type elementType);
 }
