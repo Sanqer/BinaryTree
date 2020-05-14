@@ -1,11 +1,8 @@
 package org.example.handlers;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.example.model.Answer;
-import org.example.model.Item;
 import org.example.model.Person;
-import org.example.model.Request;
 import org.example.tree.DataAdapter;
 import org.example.tree.TreeAdapter;
 import org.example.utils.Common;
@@ -19,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 

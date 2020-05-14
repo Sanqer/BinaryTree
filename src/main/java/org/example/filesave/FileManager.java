@@ -6,6 +6,7 @@ import org.example.tree.rbtree.RedBlackTree;
 import org.example.tree.TreeContainer;
 import org.example.tree.avltree.AvlTree;
 import org.example.tree.sympletree.SimpleTree;
+import org.example.utils.Common;
 import org.example.utils.PropertyManager;
 import org.example.utils.SerializerFactory;
 
@@ -25,7 +26,7 @@ public class FileManager
 
     public TreeContainer<Person> load() {
         TreeContainer<Person> tree;
-        String treeProp = PropertyManager.getPropertyAsString("tree.type", "avl");
+        String treeProp = Common.getTreeType();
         if (treeProp.equalsIgnoreCase("avl")) {
             tree = SerializerFactory.getSerializer().Deserialize(loader.load(), new TypeToken<AvlTree<Person>>() {}.getType());
             if (tree == null)

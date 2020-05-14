@@ -13,6 +13,8 @@ public class Answer
     @JacksonXmlElementWrapper
     private List<Person> items;
 
+    public Answer() {}
+
     public Answer(String status, List<Person> items)
     {
         this.status = status;

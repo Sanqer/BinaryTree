@@ -5,7 +5,7 @@ format = json
 db.path = ./db/db
 db.saver = file
 db.loader = file
-tree.type = rbtree
+tree.type = avl
 
 log4j.rootLogger= TRACE, stdout, file
 log4j.logger.net.spy=TRACE

@@ -11,14 +11,17 @@ import java.util.List;
 public class RedBlackTree <E extends Comparable<E>> implements TreeContainer<E>
 {
     private transient List<E> listForPrint = new ArrayList<>();
-    private transient RedNode<E> nil = new RedNode<>();
+    //private transient RedNode<E> nil() = new RedNode<>();
     @JacksonXmlProperty
-    private RedNode<E> root=nil;
+    private RedNode<E> root;
+
+    private RedNode<E> nil() { return new RedNode<>(); }
 
     public RedBlackTree() {
-        root.left = nil;
-        root.right = nil;
-        root.parent = nil;
+        root = nil();
+        root.left = nil();
+        root.right = nil();
+        root.parent = nil();
     }
 
     @Override
@@ -28,15 +31,14 @@ public class RedBlackTree <E extends Comparable<E>> implements TreeContainer<E>
 
     @Override
     public boolean delete(E sameElement){
-
         RedNode<E> z = search(sameElement);
 
-        RedNode<E> x = nil;
-        RedNode<E> y = nil;
+        RedNode<E> x = nil();
+        RedNode<E> y = nil();
         if(z==null){
             return false;
         }
-        // если один из дочерних элементов z равен nil, то мы должны удалить z
+        // если один из дочерних элементов z равен nil(), то мы должны удалить z
         if (isNil(z.left) || isNil(z.right)){
             y = z;
         }
@@ -107,7 +109,7 @@ public class RedBlackTree <E extends Comparable<E>> implements TreeContainer<E>
 
     @Override
     public void configure() {
-        restoreParents(root, nil);
+        restoreParents(root, nil());
     }
 
     private void restoreParents(RedNode<E> current, RedNode<E> prev) {
@@ -120,7 +122,7 @@ public class RedBlackTree <E extends Comparable<E>> implements TreeContainer<E>
     // Вставляет z в соответствующую позицию в RedBlackTree
     private boolean insert(RedNode<E> z) {
 
-        RedNode<E> y=nil;
+        RedNode<E> y=nil();
         RedNode<E> x = root;
 
         if(search(z.value)!=null){
@@ -166,17 +168,17 @@ public class RedBlackTree <E extends Comparable<E>> implements TreeContainer<E>
     // был вызван во время вставки (z)
     private void insertFixup(RedNode<E> z){
 
-        RedNode<E> y = nil;
+        RedNode<E> y = nil();
         // Пока нарушаются свойства дерева
         while (z.parent.color){
             if(z.parent.parent==null){
                 break;
             }
             if (z.parent.parent.left==null) {
-                z.parent.parent.left = nil;
+                z.parent.parent.left = nil();
             }
             if (z.parent.parent.right == null) {
-                z.parent.parent.right = nil;
+                z.parent.parent.right = nil();
             }
             if (z.parent == z.parent.parent.left){
                 y = z.parent.parent.right;
@@ -231,8 +233,8 @@ public class RedBlackTree <E extends Comparable<E>> implements TreeContainer<E>
     // y, RedBlackNode, который фактически был удален из дерева
     // значение, которое было в y
     private void fixNodeData(RedNode<E> x, RedNode<E> y){
-        RedNode<E> current = nil;
-        RedNode<E> track = nil;
+        RedNode<E> current = nil();
+        RedNode<E> track = nil();
 
         if (isNil(x)){
             current = y.parent;
@@ -549,7 +551,7 @@ public class RedBlackTree <E extends Comparable<E>> implements TreeContainer<E>
     }
 
     private boolean isNil(RedNode<E> node){
-        //return (node.value.compareTo(nil.value)==0);
+        //return (node.value.compareTo(nil().value)==0);
         if(node==null) return true;
         return node.value==null;
     }

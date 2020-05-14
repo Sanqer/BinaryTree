@@ -10,7 +10,12 @@ import com.google.common.base.Splitter;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import org.apache.log4j.PropertyConfigurator;
+import org.example.model.Person;
+import org.example.tree.avltree.AvlTree;
+import org.example.tree.rbtree.RedBlackTree;
+import org.example.tree.sympletree.SimpleTree;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -123,7 +128,7 @@ public class Common
     public static String getDbPath() {
         String dirPath = PropertyManager.getPropertyAsString("db.path", "./db/db");
         String ext = getFormat();
-        return dirPath + "." + ext;
+        return dirPath + "_" + getTreeType() + "." + ext;
     }
 
     public static String getFormat() {
@@ -132,6 +137,19 @@ public class Common
             return formatProp.toLowerCase();
         } else {
             return "json";
+        }
+    }
+
+    public static String getTreeType() {
+        String treeProp = PropertyManager.getPropertyAsString("tree.type", "avl");
+        if (treeProp.equalsIgnoreCase("avl")) {
+            return "avl";
+        } else if (treeProp.equalsIgnoreCase("rbtree")){
+            return "rbtree";
+        } else if (treeProp.equalsIgnoreCase("simple")){
+            return "simple";
+        } else {
+            return "avl";
         }
     }
 

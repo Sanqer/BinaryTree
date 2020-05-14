@@ -13,6 +13,7 @@ public class XmlSerializer implements Serializer
     private static Logger log = LoggerFactory.getLogger(XmlSerializer.class.getSimpleName());
     @Override
     public <T> String Serialize(T elem) {
+        if (elem == null) return "";
         XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
         String res = "";

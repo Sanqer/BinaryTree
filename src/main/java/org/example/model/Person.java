@@ -38,7 +38,7 @@ public class Person implements Comparable<Person>
         this.age = age;
     }
 
-    public Sex isSex() {
+    public Sex getSex() {
         return sex;
     }
 
