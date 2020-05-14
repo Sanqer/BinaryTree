@@ -89,8 +89,6 @@ public class RedBlackTree <E extends Comparable<E>> implements TreeContainer<E>
             return null;
         }
         return current.value;
-
-
     }
 
     @JsonIgnore
@@ -124,7 +122,6 @@ public class RedBlackTree <E extends Comparable<E>> implements TreeContainer<E>
 
         RedNode<E> y=nil;
         RedNode<E> x = root;
-
 
         if(search(z.value)!=null){
             return false;
@@ -172,8 +169,16 @@ public class RedBlackTree <E extends Comparable<E>> implements TreeContainer<E>
         RedNode<E> y = nil;
         // Пока нарушаются свойства дерева
         while (z.parent.color){
-            if(z.parent.parent==null || z.parent.parent.left==null || z.parent.parent.right==null){ return;}
-            if (z.parent.value.compareTo(z.parent.parent.left.value)==0){
+            if(z.parent.parent==null){
+                break;
+            }
+            if (z.parent.parent.left==null) {
+                z.parent.parent.left = nil;
+            }
+            if (z.parent.parent.right == null) {
+                z.parent.parent.right = nil;
+            }
+            if (z.parent == z.parent.parent.left){
                 y = z.parent.parent.right;
                 // если у - красный , меняем цвет
                 if (y.color){
@@ -183,7 +188,7 @@ public class RedBlackTree <E extends Comparable<E>> implements TreeContainer<E>
                     z = z.parent.parent;
                 }
                 // если у - черный и у z есть элемент справа
-                else if (z.parent.right!=null && z.value.compareTo(z.parent.right.value)==0){
+                else if (z.parent.right!=null && z == z.parent.right){
                     // Левый поворот
                     z = z.parent;
                     leftRotate(z);
@@ -206,7 +211,7 @@ public class RedBlackTree <E extends Comparable<E>> implements TreeContainer<E>
                     z = z.parent.parent;
                 }
                 // если у - черный и у z есть элемент слева
-                else if (z.parent.left!=null && z.value.compareTo(z.parent.left.value)==0){
+                else if (z.parent.left!=null && z == z.parent.left){
                     z = z.parent;
                     rightRotate(z);
                 }
@@ -276,8 +281,8 @@ public class RedBlackTree <E extends Comparable<E>> implements TreeContainer<E>
         RedNode<E> w;
 
         // Пока мы не исправили дерево полностью ...
-        while (x!=null && (x.value.compareTo(root.value)!=0) && (!x.color)){
-            if (x.parent.left != null && x.parent.right!=null && x.value.compareTo(x.parent.left.value)==0){
+        while (x!=null && x != root && (!x.color)){
+            if (x.parent.left != null && x.parent.right!=null && x == x.parent.left){
                 // установить родного брата
                 w = x.parent.right;
 
@@ -398,7 +403,7 @@ public class RedBlackTree <E extends Comparable<E>> implements TreeContainer<E>
             root = y;
         }
         // x левый потомок своего родителя
-        else if (x.parent.left!=null && x.parent.left.value.compareTo(x.value)==0){
+        else if (x.parent.left!=null && x.parent.left == x){
             x.parent.left = y;
         }
         // x является правым потомком своего родителя.
@@ -466,18 +471,15 @@ public class RedBlackTree <E extends Comparable<E>> implements TreeContainer<E>
         if (isNil(y.parent)){
             root = x;
         }
-
         // у - правый потомок своего родителя.
-        else if (y.parent.right!=null && y.parent.right.value.compareTo(y.value)==0){
+        else if (y.parent.right!=null && y.parent.right == y){
             y.parent.right = x;
         }
-
         // у - левый потомок своего родителя.
         else{
             y.parent.left = x;
         }
         x.right = y;
-
         y.parent = x;
 
     }

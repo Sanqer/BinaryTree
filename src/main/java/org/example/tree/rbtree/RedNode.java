@@ -1,5 +1,7 @@
 package org.example.tree.rbtree;
 
+import org.example.model.Person;
+
 public class RedNode<E> {
     public E value;
     public RedNode<E> left;
